@@ -1,23 +1,23 @@
-Install
+### Install
 ```
 sudo apt update
 sudo apt install nginx
 ```
-Adjust firewall
+### Adjust firewall
 ```
 sudo ufw app list
 sudo ufw allow 'Nginx HTTP'
 sudo ufw status
 ```
-Check status
+### Check status
 ```
 service nginx status
 ```
-Test Nginx
+### Test Nginx
 ```
 curl -4 icanhazip.com
 ```
-Manage Processess
+### Manage Processess
 ```
 sudo systemctl stop nginx
 sudo systemctl start nginx
@@ -26,13 +26,13 @@ sudo systemctl reload nginx
 sudo systemctl disable nginx
 sudo systemctl enable nginx
 ```
-Setup Server block
+### Setup Server block
 ```
 sudo mkdir -p /var/www/your_domain/html
 sudo chown -R www-data:www-data /var/www/your_domain/html
 sudo chmod -R 755 /var/www/your_domain
 ```
-Create test file
+### Create test file
 ```
 sudo nano /var/www/your_domain/html/index.html
 <html>
@@ -44,7 +44,7 @@ sudo nano /var/www/your_domain/html/index.html
     </body>
 </html>
 ```
-Create site
+### Create site
 ```
 sudo nano /etc/nginx/sites-available/your_domain
 
@@ -66,11 +66,11 @@ server {
 
 sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ```
-Optimization
+### Optimization
 ```
 http://nginx.org/en/docs/http/server_names.html#optimization
 ```
-Mediawiki (Iskomunidad)
+### Mediawiki (Iskomunidad)
 ```
 server {
         listen 80;
