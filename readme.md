@@ -19,14 +19,10 @@ service nginx status
 ```
 curl -4 icanhazip.com
 ```
-### Manage Processess
+### Commands
 ```
-sudo systemctl stop nginx
-sudo systemctl start nginx
-sudo systemctl restart nginx
-sudo systemctl reload nginx
-sudo systemctl disable nginx
-sudo systemctl enable nginx
+$nginx -t (test nginx configuration if correct)
+$service nginx start|restart|reload|stop
 ```
 ### Setup Server block
 ```
@@ -67,11 +63,6 @@ server {
 }
 
 sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
-```
-### Commands
-```
-$nginx -t (test nginx configuration if correct)
-$service nginx start|restart|reload|stop
 ```
 ### Optimization
 ```
