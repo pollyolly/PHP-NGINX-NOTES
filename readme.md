@@ -22,7 +22,7 @@ curl -4 icanhazip.com
 ### Commands
 ```
 $nginx -t (test nginx configuration if correct)
-$service nginx start|restart|reload|stop
+$service nginx start|restart|reload|stop|status
 ```
 ### Setup Server block
 ```
