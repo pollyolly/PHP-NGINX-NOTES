@@ -68,6 +68,11 @@ server {
 
 sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ```
+### Commands
+```
+$nginx -t (test nginx configuration if correct)
+$service nginx start|restart|reload|stop
+```
 ### Optimization
 ```
 http://nginx.org/en/docs/http/server_names.html#optimization
