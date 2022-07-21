@@ -23,6 +23,7 @@ curl -4 icanhazip.com
 ```
 $nginx -t (test nginx configuration if correct)
 $service nginx start|restart|reload|stop|status
+$service php7.4-fpm status 
 ```
 ### Setup Server block
 ```
