@@ -70,3 +70,61 @@ Optimization
 ```
 http://nginx.org/en/docs/http/server_names.html#optimization
 ```
+Mediawiki (Iskomunidad)
+```
+server {
+        listen 80;
+        listen [::]:80;
+        server_name dev.iskomunidad.ph www.dev.iskomunidad.ph;
+
+        root /var/www/html/iskomunidad;
+
+        index index.php;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+        location ^~ /maintenance/ {
+                return 403;
+        }
+
+        location /rest.php {
+                try_files $uri $uri/ /rest.php?$args;
+        }
+
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+                try_files $uri /index.php;
+                expires max;
+                log_not_found off;
+        }
+
+        location = /_.gif {
+                expires max;
+                empty_gif;
+        }
+
+        location ^~ /cache/ {
+                deny all;
+        }
+
+        # location /dumps {
+        # root /var/www/iskomunidad/local;
+        # autoindex on;
+        # }
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        #location ~ /\.ht {
+        #       deny all;
+        #}
+}
+```
