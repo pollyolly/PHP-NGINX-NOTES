@@ -71,6 +71,8 @@ http://nginx.org/en/docs/http/server_names.html#optimization
 ```
 ### Mediawiki (Iskomunidad)
 ```
+#/etc/nginx/site-available/iskomunidad-dev
+#ln -s /etc/nginx/site-available/iskomunidad-dev /etc/nginx/site-enabled/
 server {
         listen 80;
         listen [::]:80;
@@ -80,8 +82,16 @@ server {
 
         index index.php;
 
+        #location / {
+        #       try_files $uri $uri/ =404;
+        #}
+
         location / {
-                try_files $uri $uri/ =404;
+                try_files $uri $uri/ @rewrite;
+        }
+
+        location @rewrite {
+                rewrite ^/(.*)$ /index.php?title=$1&$args;
         }
 
         location ^~ /maintenance/ {
