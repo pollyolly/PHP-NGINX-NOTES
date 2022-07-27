@@ -69,7 +69,7 @@ sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ```
 http://nginx.org/en/docs/http/server_names.html#optimization
 ```
-### Mediawiki (Iskomunidad)
+### Mediawiki
 ```
 #/etc/nginx/site-available/iskomunidad-dev
 #ln -s /etc/nginx/site-available/iskomunidad-dev /etc/nginx/site-enabled/
