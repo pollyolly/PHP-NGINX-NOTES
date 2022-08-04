@@ -137,7 +137,7 @@ server {
         #}
 }
 ```
-### WORDPRESS 
+### WORDPRESS (SUBDOMAIN)
 ```
 server {
         listen 80;
@@ -163,11 +163,11 @@ server {
         #}
 
         location /wp_hotel_booking {
-                try_files $uri $uri/ /wordpress/index.php?$args;
+                try_files $uri $uri/ /wp_hotel_booking/index.php?$args;
         }
 
         location ~ \.php$ {
-                fastcgi_split_path_info ^(/wordpress)(/.*)$; #subdirectory
+                #fastcgi_split_path_info ^(/wp_hotel_booking)(/.*)$; #subdirectory
                 #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
                 include fastcgi_params;
                 fastcgi_intercept_errors on;
