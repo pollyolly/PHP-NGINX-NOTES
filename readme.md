@@ -137,3 +137,8 @@ server {
         #}
 }
 ```
+### INSTALL PHP
+```
+sudo apt install php-fpm
+NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+```
