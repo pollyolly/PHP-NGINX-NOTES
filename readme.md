@@ -137,6 +137,51 @@ server {
         #}
 }
 ```
+### WORDPRESS 
+```
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name iwebitechnology.xyz www.iwebitechnology.xyz;
+        root /var/www/html;
+        index index.php;
+
+        location = /favicon.ico {
+                log_not_found off;
+                access_log off;
+        }
+
+        location = /robots.txt {
+                allow all;
+                log_not_found off;
+                access_log off;
+        }
+
+        #location / {
+        #        try_files $uri $uri/ /index.php?$args;
+        #}
+
+        location /wp_hotel_booking {
+                try_files $uri $uri/ /wordpress/index.php?$args;
+        }
+
+        location ~ \.php$ {
+                fastcgi_split_path_info ^(/wordpress)(/.*)$; #subdirectory
+                #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+                include fastcgi_params;
+                fastcgi_intercept_errors on;
+                #fastcgi_pass php;
+                fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+                fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+                expires max;
+                log_not_found off;
+        }
+}
+```
 ### INSTALL PHP
 ```
 sudo apt install php-fpm
