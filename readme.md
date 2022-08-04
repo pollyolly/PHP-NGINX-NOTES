@@ -137,7 +137,7 @@ server {
         #}
 }
 ```
-### WORDPRESS (SUBDOMAIN)
+### WORDPRESS (FOLDER)
 ```
 server {
         listen 80;
