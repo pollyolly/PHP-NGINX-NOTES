@@ -151,6 +151,78 @@ server {
         #}
 }
 ```
+### WORDPRESS SSL (FOLDER)
+```
+#default
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        # Add index.php to the list if you are using PHP
+        index index.php;
+        server_name _;
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+#wp_hotel_booking
+server {
+        listen 80;
+        listen [::]:80;
+        return 301 https://iwebitechnology.xyz/404.html;
+        #if ($scheme != "https") {
+        #        return 301 https://$host$request_uri;
+        #}
+}
+
+server {
+        listen 443 ssl;
+
+        server_name iwebitechnology.xyz www.iwebitechnology.xyz *.iwebitechnology.xyz;
+        root /var/www/html;
+        index index.php index.html;
+
+        #RSA certificate
+        ssl_certificate /etc/letsencrypt/live/iwebitechnology.xyz/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/iwebitechnology.xyz/privkey.pem;
+
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+
+        location = /favicon.ico {
+                log_not_found off;
+                access_log off;
+        }
+
+        location = /robots.txt {
+                allow all;
+                log_not_found off;
+                access_log off;
+        }
+
+        #location / {
+        #        try_files $uri $uri/ /index.php?$args;
+        #}
+
+        location /wp_hotel_booking {
+                try_files $uri $uri/ /wp_hotel_booking/index.php?$args;
+        }
+
+        location ~ \.php$ {
+                #fastcgi_split_path_info ^(/wp_hotel_booking)(/.*)$; #subdirectory
+                #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+                include fastcgi_params;
+                fastcgi_intercept_errors on;
+                #fastcgi_pass php;
+                fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+                fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+                expires max;
+                log_not_found off;
+        }
+}
+```
 ### WORDPRESS (FOLDER)
 ```
 server {
