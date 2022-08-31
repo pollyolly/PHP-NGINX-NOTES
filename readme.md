@@ -152,8 +152,8 @@ server {
 }
 ```
 ### WORDPRESS SSL (FOLDER)
-```
 #default
+```
 server {
         listen 80 default_server;
         listen [::]:80 default_server;
@@ -165,7 +165,9 @@ server {
                 try_files $uri $uri/ =404;
         }
 }
+```
 #wp_hotel_booking
+```
 server {
         listen 80;
         listen [::]:80;
