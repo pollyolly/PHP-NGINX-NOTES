@@ -73,14 +73,28 @@ http://nginx.org/en/docs/http/server_names.html#optimization
 ```
 #/etc/nginx/site-available/iskomunidad-dev
 #ln -s /etc/nginx/site-available/iskomunidad-dev /etc/nginx/site-enabled/
+
 server {
         listen 80;
         listen [::]:80;
-        server_name dev.iskomunidad.ph www.dev.iskomunidad.ph;
+        return 301 https://dev.iskomunidad.ph/404.html;
+        #if ($scheme != "https") {
+        #        return 301 https://$host$request_uri;
+        #}
+ }
 
+server {
+        listen 443 ssl;
+
+        server_name dev.iskomunidad.ph www.dev.iskomunidad.ph *.dev.iskomunidad.ph;
         root /var/www/html/iskomunidad;
-
         index index.php;
+
+        #RSA certificate
+        ssl_certificate /etc/letsencrypt/live/dev.iskomunidad.ph/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/dev.iskomunidad.ph/privkey.pem;
+
+        include /etc/letsencrypt/options-ssl-nginx.conf;
 
         #location / {
         #       try_files $uri $uri/ =404;
