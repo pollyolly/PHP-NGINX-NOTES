@@ -8,7 +8,7 @@ sudo apt install nginx
 ### Adjust firewall
 ```
 sudo ufw app list
-sudo ufw allow 'Nginx HTTP'
+sudo ufw allow 'Nginx Full' or sudo ufw allow 'Nginx HTTP' or sudo ufw allow 'Nginx HTTPS'
 sudo ufw status
 ```
 ### Check status
