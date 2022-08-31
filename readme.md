@@ -87,6 +87,7 @@ server {
         listen 443 ssl;
 
         server_name dev.iskomunidad.ph www.dev.iskomunidad.ph *.dev.iskomunidad.ph;
+        error_log  /var/log/nginx/iskomunidad_error.log;
         root /var/www/html/iskomunidad;
         index index.php;
 
