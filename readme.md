@@ -233,6 +233,7 @@ server {
         listen [::]:80;
 
         server_name iwebitechnology.xyz www.iwebitechnology.xyz;
+        error_log  /var/log/nginx/iskomunidad_error.log;
         root /var/www/html;
         index index.php;
 
