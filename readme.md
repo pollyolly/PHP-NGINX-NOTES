@@ -170,6 +170,13 @@ server {
 #wp_hotel_booking
 ```
 server {
+    gzip on;
+    gzip_types      text/plain application/xml;
+    gzip_proxied    no-cache no-store private expired auth;
+    gzip_min_length 1000;
+}
+
+server {
         listen 80;
         listen [::]:80;
         return 301 https://iwebitechnology.xyz/404.html;
