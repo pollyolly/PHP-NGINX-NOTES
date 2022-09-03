@@ -318,3 +318,7 @@ server {
 sudo apt install php-fpm
 NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 ```
+Links
+```
+https://www.nginx.com/blog/9-tips-for-improving-wordpress-performance-with-nginx/
+```
