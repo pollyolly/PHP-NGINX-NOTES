@@ -227,7 +227,8 @@ server {
         # Use cached or actual file if it exists, otherwise pass request to WordPress
         location /wp_booking_hotel {
                 try_files /wp-content/cache/supercache/$http_host/$cache_uri/index.html
-                $uri $uri/ /index.php;
+                          #.htaacess support and default wordpress redirection if cache not available
+                          $uri $uri/ /index.php?$args; 
         }
         #End WP Super Cache
 
@@ -241,10 +242,6 @@ server {
                 log_not_found off;
                 access_log off;
         }
-
-        #location / {
-        #        try_files $uri $uri/ /index.php?$args;
-        #}
 
         location /wp_hotel_booking {
                 try_files $uri $uri/ /wp_hotel_booking/index.php?$args;
