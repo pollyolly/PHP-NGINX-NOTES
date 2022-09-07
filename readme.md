@@ -228,7 +228,7 @@ server {
         location /wp_booking_hotel {
                 try_files /wp-content/cache/supercache/$http_host/$cache_uri/index.html
                           #.htaacess support and default wordpress redirection if cache not available
-                          $uri $uri/ /index.php?$args; 
+                          $uri $uri/ /wp_booking_hotel/index.php?$args; 
         }
         #End WP Super Cache
 
@@ -241,10 +241,6 @@ server {
                 allow all;
                 log_not_found off;
                 access_log off;
-        }
-
-        location /wp_hotel_booking {
-                try_files $uri $uri/ /wp_hotel_booking/index.php?$args;
         }
 
         location ~ \.php$ {
@@ -293,11 +289,8 @@ server {
                 access_log off;
         }
 
-        #location / {
-        #        try_files $uri $uri/ /index.php?$args;
-        #}
-
         location /wp_hotel_booking {
+                #.htaccess support
                 try_files $uri $uri/ /wp_hotel_booking/index.php?$args;
         }
 
