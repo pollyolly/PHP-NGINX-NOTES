@@ -68,6 +68,8 @@ sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ### Optimization
 ```
 http://nginx.org/en/docs/http/server_names.html#optimization
+https://sourcecloud.co.uk/blogs/performance-tuning-nginx-and-php-fpm-for-xenforo/
+https://www.digitalocean.com/community/tutorials/php-fpm-nginx#2-configure-php-fpm-pool
 ```
 ### Mediawiki
 ```
