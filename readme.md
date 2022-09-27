@@ -4,6 +4,7 @@
 ```
 sudo apt update
 sudo apt install nginx
+sudo apt install php7.4-fpm
 ```
 ### Adjust firewall
 ```
