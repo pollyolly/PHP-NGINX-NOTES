@@ -125,6 +125,8 @@ server {
                 fastcgi_pass unix:/run/php/php7.4-fpm.sock;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                 include fastcgi_params;
+                fastcgi_buffers 4 16k;
+                fastcgi_buffer_size 16k;
         }
 
         location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
