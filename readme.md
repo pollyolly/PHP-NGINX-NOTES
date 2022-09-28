@@ -325,6 +325,10 @@ NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 ```
 https://www.nginx.com/blog/9-tips-for-improving-wordpress-performance-with-nginx/
 https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
+```
+### Setup Pool Size
+```
 https://www.digitalocean.com/community/tutorials/php-fpm-nginx#3-configure-nginx-for-php-fpm
 https://www.kinamo.be/en/support/faq/determining-the-correct-number-of-child-processes-for-php-fpm-on-nginx
+https://gist.github.com/holmberd/44fa5c2555139a1a46e01434d3aaa512
 ```
