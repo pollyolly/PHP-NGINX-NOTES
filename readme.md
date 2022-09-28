@@ -125,6 +125,7 @@ server {
                 fastcgi_pass unix:/run/php/php7.4-fpm.sock;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                 include fastcgi_params;
+                #https://gist.github.com/ikennaokpala/5792a71cfae6818035eedc8abd9ae7b4
                 fastcgi_buffers 4 16k;
                 fastcgi_buffer_size 16k;
         }
