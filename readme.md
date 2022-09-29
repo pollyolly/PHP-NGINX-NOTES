@@ -322,10 +322,11 @@ sudo apt install php-fpm
 NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 ```
 ### NginX Tutorial Links
-```
-https://www.nginx.com/blog/9-tips-for-improving-wordpress-performance-with-nginx/
-https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/
-```
+
+[9-tips-for-improving-wordpress-performance-with-nginx](https://www.nginx.com/blog/9-tips-for-improving-wordpress-performance-with-nginx)
+
+[Nginx Content Cache](https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/)
+
 ### Setup PHP FPM Pool Size
 
 [Configure php-fpm](https://www.digitalocean.com/community/tutorials/php-fpm-nginx#3-configure-nginx-for-php-fpm)
