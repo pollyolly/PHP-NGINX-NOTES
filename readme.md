@@ -321,6 +321,10 @@ server {
 sudo apt install php-fpm
 NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 ```
+### IMPROVE PHP FOR NGINX
+
+[Web Serving and Caching](https://www.nginx.com/blog/maximizing-php-7-performance-with-nginx-part-i-web-serving-and-caching/)
+
 ### NginX Tutorial Links
 
 [9-tips-for-improving-wordpress-performance-with-nginx](https://www.nginx.com/blog/9-tips-for-improving-wordpress-performance-with-nginx)
