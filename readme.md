@@ -316,6 +316,13 @@ server {
         }
 }
 ```
+### Troubleshooting
+502 Bad Gateway
+```
+You may need to increase the buffering
+fastcgi_buffers 4 16k;
+fastcgi_buffer_size 16k;
+```
 ### INSTALL PHP
 ```
 sudo apt install php-fpm
