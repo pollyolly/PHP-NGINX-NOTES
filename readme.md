@@ -346,3 +346,7 @@ NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 
 [Compute number of child processes](https://gist.github.com/holmberd/44fa5c2555139a1a46e01434d3aaa512)
 
+[PHP-FPM Process Calculator](https://spot13.com/pmcalculator/)
+
+[Analyse and Calculate php-fpm runner](https://chrismoore.ca/2018/10/finding-the-correct-pm-max-children-settings-for-php-fpm/)
+
