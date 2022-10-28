@@ -360,6 +360,8 @@ NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 
 [OSTICKET](https://www.nginx.com/resources/wiki/start/topics/recipes/osticket/)
 
+[LIST OF SAMPLES](https://www.nginx.com/resources/wiki/start/#full-stack-howtos)
+
 ### Setup PHP FPM Pool Size
 
 [Configure php-fpm](https://www.digitalocean.com/community/tutorials/php-fpm-nginx#3-configure-nginx-for-php-fpm)
