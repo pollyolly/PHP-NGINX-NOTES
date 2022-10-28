@@ -319,6 +319,25 @@ server {
     keepalive_timeout 70; # LONGER CONNECTION OF CLIENT
 }
 ```
+### IMPROVE PHP-FPM
+[PHP-FPM Process Calculator](https://spot13.com/pmcalculator/)
+    
+[Analyse and Calculate php-fpm runner](https://chrismoore.ca/2018/10/finding-the-correct-pm-max-children-settings-for-php-fpm/)
+```
+#ondemand - auto scaling of 
+#dynamic - configured scaling 
+    
+[Total Available RAM] - [Reserved RAM] - [10% buffer] = [Available RAM for PHP]
+
+Results:
+[Available RAM for PHP] / [Average Process Size] = [max_children]
+pm.max_children = [max_children]
+pm.start_servers = [25% of max_children]
+pm.min_spare_servers = [25% of max_children]
+pm.max_spare_servers = [75% of max_children]   
+
+
+```
 ### Troubleshooting
 502 Bad Gateway
 ```
@@ -349,7 +368,7 @@ NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 
 [Compute number of child processes](https://gist.github.com/holmberd/44fa5c2555139a1a46e01434d3aaa512)
 
-[PHP-FPM Process Calculator](https://spot13.com/pmcalculator/)
 
-[Analyse and Calculate php-fpm runner](https://chrismoore.ca/2018/10/finding-the-correct-pm-max-children-settings-for-php-fpm/)
+
+
 
