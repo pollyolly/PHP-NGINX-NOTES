@@ -66,12 +66,6 @@ server {
 
 sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ```
-### Optimization
-```
-http://nginx.org/en/docs/http/server_names.html#optimization
-https://sourcecloud.co.uk/blogs/performance-tuning-nginx-and-php-fpm-for-xenforo/
-https://www.digitalocean.com/community/tutorials/php-fpm-nginx#2-configure-php-fpm-pool
-```
 ### Mediawiki
 ```
 #/etc/nginx/site-available/iskomunidad-dev
@@ -126,8 +120,8 @@ server {
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                 include fastcgi_params;
                 #https://gist.github.com/ikennaokpala/5792a71cfae6818035eedc8abd9ae7b4
-                fastcgi_buffers 4 16k;
-                fastcgi_buffer_size 16k;
+                fastcgi_buffers 4 16k; #8|16|32
+                fastcgi_buffer_size 16k; #8|16|32
         }
 
         location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
@@ -180,6 +174,7 @@ server {
     gzip_types      text/plain application/xml;
     gzip_proxied    no-cache no-store private expired auth;
     gzip_min_length 1000;
+    gzip_types       text/plain application/x-javascript text/xml text/css application/xml;
 }
 
 server {
@@ -273,47 +268,55 @@ server {
         #End WP Super Cache
 }
 ```
-### WORDPRESS (FOLDER)
+### IMPROVE PHP FOR NGINX
+Check number of processor for worker_processes <number of processor>
+
+$grep processor /proc/cpuinfo | wc -l
+
+Check number of allowed connections for worker_processes <connection>;
+
+$ulimit -n
+
+worker_processes x worker_connections = simultaneous client connections
 ```
+# WORKERS
+use www-data;
+#worker_processes auto; #default
+worker_processes 1;
+event {
+    worker_connections 1024;
+}
+
+# LONGER CACHE EXPIRATION
+location ~* .(jpg|jpeg|png|gif|ico|css|js)$ {
+    expires 365d;
+}
+
+# BUFFER SETTING FOR PHP-FPM
+location ~ \.php$ {
+    fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+    #https://gist.github.com/ikennaokpala/5792a71cfae6818035eedc8abd9ae7b4
+    fastcgi_buffers 4 16k; #8|16|32
+    fastcgi_buffer_size 16k; #8|16|32
+}
+        
+# GZIP COMPRESSION
 server {
-        listen 80;
-        listen [::]:80;
+    gzip on;
+    gzip_types      text/plain application/xml;
+    gzip_proxied    no-cache no-store private expired auth;
+    gzip_min_length 1000;
+    gzip_types       text/plain application/x-javascript text/xml text/css application/xml;
+}
 
-        server_name iwebitechnology.xyz www.iwebitechnology.xyz;
-        error_log  /var/log/nginx/iskomunidad_error.log;
-        root /var/www/html;
-        index index.php;
-
-        location = /favicon.ico {
-                log_not_found off;
-                access_log off;
-        }
-
-        location = /robots.txt {
-                allow all;
-                log_not_found off;
-                access_log off;
-        }
-
-        location /wp_hotel_booking {
-                #.htaccess support
-                try_files $uri $uri/ /wp_hotel_booking/index.php?$args;
-        }
-
-        location ~ \.php$ {
-                #fastcgi_split_path_info ^(/wp_hotel_booking)(/.*)$; #subdirectory
-                #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-                include fastcgi_params;
-                fastcgi_intercept_errors on;
-                #fastcgi_pass php;
-                fastcgi_pass unix:/run/php/php7.4-fpm.sock;
-                fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        }
-
-        location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
-                expires max;
-                log_not_found off;
-        }
+# OTHER
+server {
+    client_max_body_size 100m; # INCREASE FILE UPLOAD
+    client_body_timeout 60; # INCREASE FILE UPLOAD TIMEOUT 
+                            # php.ini
+                            # upload_max_filesize = 100M
+                            # post_max_size = 100M
+    keepalive_timeout 70; # LONGER CONNECTION OF CLIENT
 }
 ```
 ### Troubleshooting
@@ -328,15 +331,15 @@ fastcgi_buffer_size 16k;
 sudo apt install php-fpm
 NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 ```
-### IMPROVE PHP FOR NGINX
-
-[Web Serving and Caching](https://www.nginx.com/blog/maximizing-php-7-performance-with-nginx-part-i-web-serving-and-caching/)
-
 ### NginX Tutorial Links
 
 [9-tips-for-improving-wordpress-performance-with-nginx](https://www.nginx.com/blog/9-tips-for-improving-wordpress-performance-with-nginx)
 
 [Nginx Content Cache](https://docs.nginx.com/nginx/admin-guide/content-cache/content-caching/)
+
+### Nginx Sample
+
+[OSTICKET](https://www.nginx.com/resources/wiki/start/topics/recipes/osticket/)
 
 ### Setup PHP FPM Pool Size
 
