@@ -345,6 +345,18 @@ You may need to increase the buffering
 fastcgi_buffers 4 16k;
 fastcgi_buffer_size 16k;
 ```
+[Pages Response Slow 502 Response](https://stackoverflow.com/questions/52057345/dns-and-nginx-server-setup-causes-slow-server-and-502-response)
+```
+#NginX
+#May cause page slow response; 
+#Dahil sa 404 page na generated nang PHP program. Nag reredirect ang Page nang Paulit-ulit.
+
+try_files $uri $uri/ /index.php?$args; 
+
+#Solution:
+#Gumawa nang static page para sa 404 Error.
+error_page 404 /404.html;
+```
 ### INSTALL PHP
 ```
 sudo apt install php-fpm
