@@ -355,6 +355,7 @@ try_files $uri $uri/ /index.php?$args;
 
 #Solution:
 #Gumawa nang static page para sa 404 Error.
+
 error_page 404 /404.html;
 ```
 ### INSTALL PHP
