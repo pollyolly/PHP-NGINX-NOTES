@@ -74,10 +74,7 @@ sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 server {
         listen 80;
         listen [::]:80;
-        return 301 https://dev.iskomunidad.ph/404.html;
-        #if ($scheme != "https") {
-        #        return 301 https://$host$request_uri;
-        #}
+        return 301 https://dev.iskomunidad.ph$request_uri; #Redirect to https and retain the URL format
  }
 
 server {
@@ -180,10 +177,7 @@ server {
 server {
         listen 80;
         listen [::]:80;
-        return 301 https://iwebitechnology.xyz/404.html;
-        #if ($scheme != "https") {
-        #        return 301 https://$host$request_uri;
-        #}
+        return 301 https://iwebitechnology.xyz$request_uri; #Redirect to https and retain the URL format
 }
 
 server {
