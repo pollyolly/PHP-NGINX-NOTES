@@ -352,6 +352,10 @@ try_files $uri $uri/ /index.php?$args;
 
 error_page 404 /404.html;
 ```
+Redirect to https and retain the URL format
+```
+return 301 https://dev.iskomunidad.ph$request_uri;
+```
 ### INSTALL PHP
 ```
 sudo apt install php-fpm
