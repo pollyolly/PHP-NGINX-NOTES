@@ -341,16 +341,16 @@ fastcgi_buffer_size 16k;
 ```
 [Pages Response Slow 502 Response](https://stackoverflow.com/questions/52057345/dns-and-nginx-server-setup-causes-slow-server-and-502-response)
 ```
-#NginX
-#May cause page slow response; 
-#Dahil sa 404 page na generated nang PHP program. Nag reredirect ang Page nang Paulit-ulit.
+#Dahil sa 404 page na generated nang PHP program. 
+#Nag reredirect ang Page nang Paulit-ulit.
 
 try_files $uri $uri/ /index.php?$args; 
 
 #Solution:
-#Gumawa nang static page para sa 404 Error.
-
-error_page 404 /404.html;
+1. Gumawa nang static page(404.html) para sa 404 Error. Mas mabilis mag serve.
+    error_page 404 /404.html; 
+2. Check Newtork Issue.
+3. Issue on DNS Resolution
 ```
 Redirect to https and retain the URL format
 ```
