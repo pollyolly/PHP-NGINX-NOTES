@@ -74,20 +74,20 @@ sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 server {
         listen 80;
         listen [::]:80;
-        return 301 https://dev.iskomunidad.ph$request_uri; #Redirect to https and retain the URL format
+        return 301 https://dev.website.ph$request_uri; #Redirect to https and retain the URL format
  }
 
 server {
         listen 443 ssl;
 
-        server_name dev.iskomunidad.ph www.dev.iskomunidad.ph *.dev.iskomunidad.ph;
+        server_name dev.website.ph www.dev.website.ph *.dev.website.ph;
         error_log  /var/log/nginx/iskomunidad_error.log;
-        root /var/www/html/iskomunidad;
+        root /var/www/html/website;
         index index.php;
 
         #RSA certificate
-        ssl_certificate /etc/letsencrypt/live/dev.iskomunidad.ph/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/dev.iskomunidad.ph/privkey.pem;
+        ssl_certificate /etc/letsencrypt/live/dev.website.ph/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/dev.website.ph/privkey.pem;
 
         include /etc/letsencrypt/options-ssl-nginx.conf;
 
@@ -331,6 +331,20 @@ pm.min_spare_servers = [25% of max_children]
 pm.max_spare_servers = [75% of max_children]   
 
 
+```
+### SELF SIGNED NGINX
+```
+//OPTIONAL (FOR APACHE)
+$ sudo a2enmod rewrite
+$ sudo a2enmod ssl
+$ sudo a2enmod headers
+//GENERATE SELF SIGNED
+$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+
+//Nginx config
+#RSA certificate
+ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt
+ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key
 ```
 ### Troubleshooting
 502 Bad Gateway
