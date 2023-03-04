@@ -395,7 +395,7 @@ NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 
 [Compute number of child processes](https://gist.github.com/holmberd/44fa5c2555139a1a46e01434d3aaa512)
 
+### Nginx M1
 
-
-
+[nginx sites-available folder not found](https://gist.github.com/sanrandry/bd4350a591f62eb259e48cd9fbfcd642)
 
