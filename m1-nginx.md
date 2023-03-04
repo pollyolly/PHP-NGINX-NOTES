@@ -3,6 +3,8 @@
 #Install
 $brew install nginx
 
+#nginx files
+opt/homebrew/etc/nginx/
 
 
 #Test
@@ -10,6 +12,7 @@ $curl http://localhost:8080
 
 #Commands:
 brew services start nginx
+brew services restart nginx
 ```
 
 ### Missing site-available and site-enabled
