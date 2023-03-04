@@ -11,3 +11,7 @@ $curl http://localhost:8080
 #Commands:
 brew services start nginx
 ```
+
+### Missing site-available and site-enabled
+
+[nginx sites-available folder not found](https://gist.github.com/sanrandry/bd4350a591f62eb259e48cd9fbfcd642)
