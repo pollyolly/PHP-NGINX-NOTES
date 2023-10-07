@@ -1,39 +1,39 @@
 # NGINX-ADMINISTRATION
 
 ### Install
-```
+```vim
 sudo apt update
 sudo apt install nginx
 sudo apt install php7.4-fpm
 ```
 ### Adjust firewall
-```
+```vim
 sudo ufw app list
 sudo ufw allow 'Nginx Full' or sudo ufw allow 'Nginx HTTP' or sudo ufw allow 'Nginx HTTPS'
 sudo ufw status
 ```
 ### Check status
-```
+```vim
 service nginx status
 ```
 ### Test Nginx
-```
+```vim
 curl -4 icanhazip.com
 ```
 ### Commands
-```
+```vim
 $nginx -t (test nginx configuration if correct)
 $service nginx start|restart|reload|stop|status
 $service php7.4-fpm status 
 ```
 ### Setup Server block
-```
+```vim
 sudo mkdir -p /var/www/your_domain/html
 sudo chown -R www-data:www-data /var/www/your_domain/html
 sudo chmod -R 755 /var/www/your_domain
 ```
 ### Create test file
-```
+```vim
 sudo nano /var/www/your_domain/html/index.html
 <html>
     <head>
@@ -45,7 +45,7 @@ sudo nano /var/www/your_domain/html/index.html
 </html>
 ```
 ### Create site
-```
+```nginx
 sudo nano /etc/nginx/sites-available/your_domain
 
 /etc/nginx/sites-available/your_domain
@@ -67,7 +67,7 @@ server {
 sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ```
 ### Mediawiki
-```
+```nginx
 #/etc/nginx/site-available/iskomunidad-dev
 #ln -s /etc/nginx/site-available/iskomunidad-dev /etc/nginx/site-enabled/
 
@@ -151,7 +151,7 @@ server {
 ```
 ### WORDPRESS SSL (FOLDER)
 #default
-```
+```nginx
 server {
         listen 80 default_server;
         listen [::]:80 default_server;
@@ -165,7 +165,7 @@ server {
 }
 ```
 #wp_hotel_booking
-```
+```nginx
 server {
     gzip on;
     gzip_types      text/plain application/xml;
@@ -272,7 +272,7 @@ Check number of allowed connections for worker_processes <connection>;
 $ulimit -n
 
 worker_processes x worker_connections = simultaneous client connections
-```
+```nginx
 # WORKERS
 use www-data;
 #worker_processes auto; #default
@@ -317,7 +317,7 @@ server {
 [PHP-FPM Process Calculator](https://spot13.com/pmcalculator/)
     
 [Analyse and Calculate php-fpm runner](https://chrismoore.ca/2018/10/finding-the-correct-pm-max-children-settings-for-php-fpm/)
-```
+```vim
 #ondemand - auto scaling of 
 #dynamic - configured scaling 
     
@@ -333,7 +333,7 @@ pm.max_spare_servers = [75% of max_children]
 
 ```
 ### SELF SIGNED NGINX
-```
+```vim
 //OPTIONAL (FOR APACHE)
 $ sudo a2enmod rewrite
 $ sudo a2enmod ssl
@@ -348,13 +348,13 @@ ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key
 ```
 ### Troubleshooting
 502 Bad Gateway
-```
+```vim
 You may need to increase the buffering
 fastcgi_buffers 4 16k;
 fastcgi_buffer_size 16k;
 ```
 [Pages Response Slow 502 Response](https://stackoverflow.com/questions/52057345/dns-and-nginx-server-setup-causes-slow-server-and-502-response)
-```
+```vim
 #Dahil sa 404 page na generated nang PHP program. 
 #Nag reredirect ang Page nang Paulit-ulit.
 
@@ -367,11 +367,11 @@ try_files $uri $uri/ /index.php?$args;
 3. Issue on DNS Resolution
 ```
 Redirect to https and retain the URL format
-```
+```nginx
 return 301 https://dev.iskomunidad.ph$request_uri;
 ```
 ### INSTALL PHP
-```
+```vim
 sudo apt install php-fpm
 NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 ```
