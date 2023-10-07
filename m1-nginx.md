@@ -1,5 +1,5 @@
 ### Homebrew Installation
-```
+```vim
 #Install
 $brew install nginx
 
