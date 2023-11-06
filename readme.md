@@ -68,8 +68,8 @@ sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ```
 ### Mediawiki
 ```nginx
-#/etc/nginx/site-available/iskomunidad-dev
-#ln -s /etc/nginx/site-available/iskomunidad-dev /etc/nginx/site-enabled/
+#/etc/nginx/site-available/mediawiki-dev
+#ln -s /etc/nginx/site-available/mediawiki-dev /etc/nginx/site-enabled/
 
 server {
         listen 80;
@@ -81,7 +81,7 @@ server {
         listen 443 ssl;
 
         server_name dev.website.ph www.dev.website.ph *.dev.website.ph;
-        error_log  /var/log/nginx/iskomunidad_error.log;
+        error_log  /var/log/nginx/mediawiki_error.log;
         root /var/www/html/website;
         index index.php;
 
@@ -137,7 +137,7 @@ server {
         }
 
         # location /dumps {
-        # root /var/www/iskomunidad/local;
+        # root /var/www/mediawiki/local;
         # autoindex on;
         # }
 
@@ -368,7 +368,7 @@ try_files $uri $uri/ /index.php?$args;
 ```
 Redirect to https and retain the URL format
 ```nginx
-return 301 https://dev.iskomunidad.ph$request_uri;
+return 301 https://dev.mediawiki.ph$request_uri;
 ```
 ### INSTALL PHP
 ```vim
