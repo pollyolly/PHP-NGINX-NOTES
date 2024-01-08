@@ -17,7 +17,7 @@ $ curl http://localhost:8080
 $ brew services start nginx
 $ brew services restart nginx
 $ brew services stop nginx
-$ brew services restart nginx
+$ brew services reload nginx
 ```
 ### Check Nginx Configuration Status
 ```vim
