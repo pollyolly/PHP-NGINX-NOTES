@@ -267,7 +267,7 @@ server {
 }
 ```
 ### WORDPRESS SSL (FOLDER)
-default
+default (Redirect HTTP and HTTPS main domain to sub domain)
 ```nginx
 server {
 	listen 80;
