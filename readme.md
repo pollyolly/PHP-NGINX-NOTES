@@ -66,6 +66,23 @@ server {
 
 sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ```
+### Redirect Main Domain to Subdomain Https
+```nginx
+server {
+        listen 80;
+        server_name iwebitechnology.xyz www.iwebitechnology.xyz *.iwebitechnology.xyz;
+        return 301 https://portfolio.iwebitechnology.xyz$request_uri;
+        #return 301 https://$host$request_uri;
+        #location / {
+        #       try_files $uri $uri/ =404;
+        #}
+}
+server {
+        listen 443;
+        server_name iwebitechnology.xyz www.iwebitechnology.xyz *.iwebitechnology.xyz;
+        return 301 https://portfolio.iwebitechnology.xyz$request_uri;
+}
+```
 ### Drupal
 ```nginx
 server {
@@ -74,16 +91,12 @@ server {
     gzip_proxied    no-cache no-store private expired auth;
     gzip_min_length 1000;
 }
-
 server {
 	listen 80;
-	listen [::]:80;
-
-	#server_name drupal.iwebitechnology.xyz *.drupal.iwebitechnology.xyz;
+	server_name drupal.iwebitechnology.xyz *.drupal.iwebitechnology.xyz;
 	return 301 https://drupal.iwebitechnology.xyz$request_uri;
 
 }
-
 server {
 	listen 443 ssl;
 
@@ -178,14 +191,13 @@ server {
 
 server {
         listen 80;
-        listen [::]:80;
+	server_name dev.website.ph *.dev.website.ph;
         return 301 https://dev.website.ph$request_uri; #Redirect to https and retain the URL format
  }
-
 server {
         listen 443 ssl;
 
-        server_name dev.website.ph www.dev.website.ph *.dev.website.ph;
+        server_name dev.website.ph *.dev.website.ph;
         error_log  /var/log/nginx/mediawiki_error.log;
         root /var/www/html/website;
         index index.php;
@@ -255,21 +267,26 @@ server {
 }
 ```
 ### WORDPRESS SSL (FOLDER)
-#default
+default
 ```nginx
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-        root /var/www/html;
-        # Add index.php to the list if you are using PHP
-        index index.php;
-        server_name _;
-        location / {
-                try_files $uri $uri/ =404;
-        }
+	listen 80;
+	#listen [::]:80 default_server;
+	server_name iwebitechnology.xyz www.iwebitechnology.xyz *.iwebitechnology.xyz;
+	#server_name _;
+	return 301 https://portfolio.iwebitechnology.xyz$request_uri;
+	#return 301 https://$host$request_uri;
+	#location / {
+	#	try_files $uri $uri/ =404;
+	#}
+}
+server {
+	listen 443;
+	server_name iwebitechnology.xyz www.iwebitechnology.xyz *.iwebitechnology.xyz;
+	return 301 https://portfolio.iwebitechnology.xyz$request_uri;
 }
 ```
-#wp_hotel_booking
+wp_portfolio
 ```nginx
 server {
     gzip on;
@@ -278,59 +295,63 @@ server {
     gzip_min_length 1000;
     gzip_types       text/plain application/x-javascript text/xml text/css application/xml;
 }
-
 server {
         listen 80;
-        listen [::]:80;
-        return 301 https://iwebitechnology.xyz$request_uri; #Redirect to https and retain the URL format
+        server_name portfolio.iwebitechnology.xyz *.portfolio.iwebitechnology.xyz;
+        return 301 https://portfolio.iwebitechnology.xyz$request_uri; #Redirect to https and retain the URL format
 }
-
 server {
-        listen 443 ssl;
+	listen 443 ssl;
 
-        server_name iwebitechnology.xyz www.iwebitechnology.xyz *.iwebitechnology.xyz;
-        root /var/www/html;
+        server_name portfolio.iwebitechnology.xyz *.portfolio.iwebitechnology.xyz;
+
+        root /var/www/html/wp_portfolio;
         index index.php index.html;
 
-        #RSA certificate
-        ssl_certificate /etc/letsencrypt/live/iwebitechnology.xyz/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/iwebitechnology.xyz/privkey.pem;
+	access_log /var/log/nginx/wpportfolio_access.log;
+    	error_log  /var/log/nginx/wpportfolio_error.log debug;
 
-        include /etc/letsencrypt/options-ssl-nginx.conf;
+    	#RSA certificate
+        #ssl_certificate /etc/letsencrypt/live/portfolio.iwebitechnology.xyz/fullchain.pem;
+        #ssl_certificate_key /etc/letsencrypt/live/portfolio.iwebitechnology.xyz/privkey.pem;
+	#include /etc/letsencrypt/options-ssl-nginx.conf;
 
-        #Start WP Super Cache
-        set $cache_uri $request_uri;
+	ssl_certificate /etc/cloudflare_ssl/cert.pem;
+        ssl_certificate_key /etc/cloudflare_ssl/key.pem;
+        
+	#Start WP Super Cache
+	set $cache_uri $request_uri;
 
-        # POST requests and URLs with a query string should always go to PHP
-        if ($request_method = POST) {
-                set $cache_uri 'null cache';
-        }
-        if ($query_string != "") {
-                set $cache_uri 'null cache';
-        }
+    	# POST requests and URLs with a query string should always go to PHP
+    	if ($request_method = POST) {
+        	set $cache_uri 'null cache';
+    	}  
+    	if ($query_string != "") {
+        	set $cache_uri 'null cache';
+    	}   
 
-        # Don't cache URIs containing the following segments
-        if ($request_uri ~* "(/wp-admin/|/xmlrpc.php|/wp-(app|cron|login|register|mail).php
+    	# Don't cache URIs containing the following segments
+    	if ($request_uri ~* "(/wp-admin/|/xmlrpc.php|/wp-(app|cron|login|register|mail).php
                           |wp-.*.php|/feed/|index.php|wp-comments-popup.php
                           |wp-links-opml.php|wp-locations.php |sitemap(_index)?.xml
                           |[a-z0-9_-]+-sitemap([0-9]+)?.xml)") {
 
-                set $cache_uri 'null cache';
-        }
-
-        # Don't use the cache for logged-in users or recent commenters
-        if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+
+        	set $cache_uri 'null cache';
+    	}  
+	
+    	# Don't use the cache for logged-in users or recent commenters
+    	if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+
                          |wp-postpass|wordpress_logged_in") {
-                set $cache_uri 'null cache';
-        }
+        	set $cache_uri 'null cache';
+    	}
 
-        # Use cached or actual file if it exists, otherwise pass request to WordPress
-        location /wp_booking_hotel {
-                try_files /wp-content/cache/supercache/$http_host/$cache_uri/index.html
-                          #.htaacess support and default wordpress redirection if cache not available
-                          $uri $uri/ /wp_booking_hotel/index.php?$args; 
-        }
-        #End WP Super Cache
+	# Use cached or actual file if it exists, otherwise pass request to WordPress
+    	location / {
+        	try_files /wp-content/cache/supercache/$http_host/$cache_uri/index.html 
+			  #.htaacess support and default wordpress redirection if cache not available
+			  $uri $uri/ /index.php?$args;
+    	} 
+	#End WP Super Cache
 
         location = /favicon.ico {
                 log_not_found off;
@@ -343,28 +364,49 @@ server {
                 access_log off;
         }
 
+        #location / {
+        #        try_files $uri $uri/ /index.php?$args;
+        #}
+
+	#location / {
+        #	try_files $uri $uri/ /index.php?$args;
+	#}
+	#Deny Accessing PHP Files
+	location ~* (/wp-content/.*\.php$|/wp-includes/.*\.php$|/xmlrpc\.php$|/(?:uploads|files)/.*\.php$|/\.ht|^/\.user\.ini) {
+            deny all;
+            access_log off;
+            log_not_found off;
+        }
+	#Deny Access XMLRPC
+	location = /xmlrpc.php {
+    		deny all;
+		access_log off;
+    		log_not_found off;
+    		return 404;
+	}
         location ~ \.php$ {
-                #fastcgi_split_path_info ^(/wp_hotel_booking)(/.*)$; #subdirectory
+		#fastcgi_split_path_info ^(/wp_hotel_booking)(/.*)$; #subdirectory
                 #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
                 include fastcgi_params;
                 fastcgi_intercept_errors on;
                 #fastcgi_pass php;
-                fastcgi_pass unix:/run/php/php7.4-fpm.sock;
-                fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		#fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+                fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+		fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
         }
 
         #location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
         #        expires max;
         #        log_not_found off;
         #}
-        #Start WP Super Cache
-        # Cache static files for as long as possible
-        location ~* \.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
-                expires max;
-                log_not_found off;
-                access_log off;
-        }
-        #End WP Super Cache
+	#Start WP Super Cache
+	# Cache static files for as long as possible
+    	location ~* \.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
+        	expires max;
+        	log_not_found off;
+        	access_log off;
+    	}
+	#End WP Super Cache
 }
 ```
 ### IMPROVE PHP FOR NGINX
