@@ -515,7 +515,20 @@ try_files $uri $uri/ /index.php?$args;
 ```
 Redirect to https and retain the URL format
 ```nginx
-return 301 https://dev.mediawiki.ph$request_uri;
+server {
+        listen 80;
+	server_name dev.mediawiki.ph;
+	return 301 https://dev.mediawiki.ph$request_uri;
+}
+server {
+        listen 443;
+	server_name dev.mediawiki.ph;
+	return 301 https://dev.mediawiki.ph$request_uri;
+}
+```
+Nginx Passed Test $nginx -t but not running
+```
+$service stop apache
 ```
 ### INSTALL PHP
 ```vim
