@@ -2,23 +2,23 @@
 
 ### Install
 ```vim
-sudo apt update
-sudo apt install nginx
-sudo apt install php7.4-fpm
+$sudo apt update
+$sudo apt install nginx
+$sudo apt install php7.4-fpm
 ```
 ### Adjust firewall
 ```vim
-sudo ufw app list
-sudo ufw allow 'Nginx Full' or sudo ufw allow 'Nginx HTTP' or sudo ufw allow 'Nginx HTTPS'
-sudo ufw status
+$sudo ufw app list
+$sudo ufw allow 'Nginx Full' or sudo ufw allow 'Nginx HTTP' or sudo ufw allow 'Nginx HTTPS'
+$sudo ufw status
 ```
 ### Check status
 ```vim
-service nginx status
+$service nginx status
 ```
 ### Test Nginx
 ```vim
-curl -4 icanhazip.com
+$curl -4 icanhazip.com
 ```
 ### Commands
 ```vim
@@ -28,13 +28,13 @@ $service php7.4-fpm status
 ```
 ### Setup Server block
 ```vim
-sudo mkdir -p /var/www/your_domain/html
-sudo chown -R www-data:www-data /var/www/your_domain/html
-sudo chmod -R 755 /var/www/your_domain
+$sudo mkdir -p /var/www/your_domain/html
+$sudo chown -R www-data:www-data /var/www/your_domain/html
+$sudo chmod -R 755 /var/www/your_domain
 ```
 ### Create test file
 ```vim
-sudo nano /var/www/your_domain/html/index.html
+$sudo nano /var/www/your_domain/html/index.html
 <html>
     <head>
         <title>Welcome to your_domain!</title>
@@ -46,7 +46,7 @@ sudo nano /var/www/your_domain/html/index.html
 ```
 ### Create site
 ```nginx
-sudo nano /etc/nginx/sites-available/your_domain
+$sudo nano /etc/nginx/sites-available/your_domain
 
 /etc/nginx/sites-available/your_domain
 
@@ -64,7 +64,7 @@ server {
         }
 }
 
-sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
+$sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
 ```
 ### Redirect Main Domain to Subdomain Https
 ```nginx
@@ -185,10 +185,11 @@ server {
 }
 ```
 ### Mediawiki
+```bash
+/etc/nginx/site-available/mediawiki-dev
+$ln -s /etc/nginx/site-available/mediawiki-dev /etc/nginx/site-enabled/
+```
 ```nginx
-#/etc/nginx/site-available/mediawiki-dev
-#ln -s /etc/nginx/site-available/mediawiki-dev /etc/nginx/site-enabled/
-
 server {
         listen 80;
 	server_name dev.website.ph *.dev.website.ph;
