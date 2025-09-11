@@ -100,16 +100,16 @@ server {
 server {
 	listen 443 ssl;
 
-        server_name drupal.iwebitechnology.xyz *.drupal.iwebitechnology.xyz;
+	server_name drupal.iwebitechnology.xyz *.drupal.iwebitechnology.xyz;
 
-        root /var/www/html/drupal_10_ecommerce;
-        index index.php index.html;
+	root /var/www/html/drupal_10_ecommerce;
+	index index.php index.html;
 
 	access_log /var/log/nginx/drupal_access.log;
-    	error_log  /var/log/nginx/drupal_error.log debug;
+	error_log  /var/log/nginx/drupal_error.log debug;
 
 	ssl_certificate /etc/cloudflare_ssl/cert.pem;
-        ssl_certificate_key /etc/cloudflare_ssl/key.pem;
+	ssl_certificate_key /etc/cloudflare_ssl/key.pem;
 
 	client_max_body_size 10M;
  
@@ -124,7 +124,7 @@ server {
         	return 403;
     	}
 	# Don't allow direct access to PHP files in the vendor directory.
-    	location ~ /vendor/.*\.php$ {
+	location ~ /vendor/.*\.php$ {
         	deny all;
         	return 404;
     	}
@@ -132,17 +132,16 @@ server {
                 #ensure php files exists
 		fastcgi_split_path_info ^(.+?\.php)(|/.*)$;
 		#NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-                include fastcgi_params;
-                #block httpoxy attack
+		include fastcgi_params;
+		 #block httpoxy attack
 		fastcgi_param HTTP_PROXY "";
-        	fastcgi_param PATH_INFO $fastcgi_path_info;
-        	fastcgi_param QUERY_STRING $query_string;
+		fastcgi_param PATH_INFO $fastcgi_path_info;
+		fastcgi_param QUERY_STRING $query_string;
 		#fastcgi_intercept_errors on;
 		
 		fastcgi_pass unix:/run/php/php8.1-fpm.sock;
-                fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        }
-
+		fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	}
 	location = /favicon.ico {
         	log_not_found off;
         	access_log off;
@@ -158,30 +157,29 @@ server {
 
    	location ~ ^/sites/.*/private/ {
         	return 403;
-    	}
-    	# Block access to scripts in site files directory
-    	location ~ ^/sites/[^/]+/files/.*\.php$ {
+	}
+	# Block access to scripts in site files directory
+	location ~ ^/sites/[^/]+/files/.*\.php$ {
         	deny all;
-    	}
+	}
 	#fighting with styles ?
 	location ~ ^/sites/.*/files/styles/ { # For Drupal >= 7
         	try_files $uri @rewrite;
-    	}
+	}
 	#handle private files through drupal
 	location ~ ^(/[a-z\-]+)?/system/files/ { # For Drupal >= 7
         	try_files $uri /index.php?$query_string;
-    	}
+	}
 	location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
         	try_files $uri @rewrite;
         	expires max;
         	log_not_found off;
-    	}
+	}
 	#enforce clean url
 	if ($request_uri ~* "^(.*/)index\.php(.*)") {
         	return 307 $1$2;
     	}
 	# Reference: https://alexanderallen.medium.com/series-part-iv-optimizing-nginx-for-drupal-8-x-and-php-7-x-976b541f3768
-
 }
 ```
 ### Mediawiki
@@ -191,10 +189,10 @@ $ln -s /etc/nginx/site-available/mediawiki-dev /etc/nginx/site-enabled/
 ```
 ```nginx
 server {
-        listen 80;
+	listen 80;
 	server_name dev.website.ph *.dev.website.ph;
-        return 301 https://dev.website.ph$request_uri; #Redirect to https and retain the URL format
- }
+	return 301 https://dev.website.ph$request_uri; #Redirect to https and retain the URL format
+}
 server {
         listen 443 ssl;
 
@@ -302,26 +300,25 @@ server {
         return 301 https://portfolio.iwebitechnology.xyz$request_uri; #Redirect to https and retain the URL format
 }
 server {
-	listen 443 ssl;
-
+		listen 443 ssl;
         server_name portfolio.iwebitechnology.xyz *.portfolio.iwebitechnology.xyz;
 
         root /var/www/html/wp_portfolio;
         index index.php index.html;
 
-	access_log /var/log/nginx/wpportfolio_access.log;
+		access_log /var/log/nginx/wpportfolio_access.log;
     	error_log  /var/log/nginx/wpportfolio_error.log debug;
 
     	#RSA certificate
         #ssl_certificate /etc/letsencrypt/live/portfolio.iwebitechnology.xyz/fullchain.pem;
         #ssl_certificate_key /etc/letsencrypt/live/portfolio.iwebitechnology.xyz/privkey.pem;
-	#include /etc/letsencrypt/options-ssl-nginx.conf;
+		#include /etc/letsencrypt/options-ssl-nginx.conf;
 
-	ssl_certificate /etc/cloudflare_ssl/cert.pem;
-        ssl_certificate_key /etc/cloudflare_ssl/key.pem;
+		ssl_certificate /etc/cloudflare_ssl/cert.pem;
+		ssl_certificate_key /etc/cloudflare_ssl/key.pem;
         
-	#Start WP Super Cache
-	set $cache_uri $request_uri;
+		#Start WP Super Cache
+		set $cache_uri $request_uri;
 
     	# POST requests and URLs with a query string should always go to PHP
     	if ($request_method = POST) {
@@ -330,7 +327,6 @@ server {
     	if ($query_string != "") {
         	set $cache_uri 'null cache';
     	}   
-
     	# Don't cache URIs containing the following segments
     	if ($request_uri ~* "(/wp-admin/|/xmlrpc.php|/wp-(app|cron|login|register|mail).php
                           |wp-.*.php|/feed/|index.php|wp-comments-popup.php
@@ -339,52 +335,47 @@ server {
 
         	set $cache_uri 'null cache';
     	}  
-	
     	# Don't use the cache for logged-in users or recent commenters
     	if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+
                          |wp-postpass|wordpress_logged_in") {
         	set $cache_uri 'null cache';
     	}
-
-	# Use cached or actual file if it exists, otherwise pass request to WordPress
+		# Use cached or actual file if it exists, otherwise pass request to WordPress
     	location / {
         	try_files /wp-content/cache/supercache/$http_host/$cache_uri/index.html 
 			  #.htaacess support and default wordpress redirection if cache not available
 			  $uri $uri/ /index.php?$args;
     	} 
-	#End WP Super Cache
-
+		#End WP Super Cache
         location = /favicon.ico {
                 log_not_found off;
                 access_log off;
         }
-
         location = /robots.txt {
                 allow all;
                 log_not_found off;
                 access_log off;
         }
-
         #location / {
         #        try_files $uri $uri/ /index.php?$args;
         #}
 
-	#location / {
+		#location / {
         #	try_files $uri $uri/ /index.php?$args;
-	#}
-	#Deny Accessing PHP Files
-	location ~* (/wp-content/.*\.php$|/wp-includes/.*\.php$|/xmlrpc\.php$|/(?:uploads|files)/.*\.php$|/\.ht|^/\.user\.ini) {
+		#}
+		#Deny Accessing PHP Files
+		location ~* (/wp-content/.*\.php$|/wp-includes/.*\.php$|/xmlrpc\.php$|/(?:uploads|files)/.*\.php$|/\.ht|^/\.user\.ini) {
             deny all;
             access_log off;
             log_not_found off;
         }
-	#Deny Access XMLRPC
-	location = /xmlrpc.php {
+		#Deny Access XMLRPC
+		location = /xmlrpc.php {
     		deny all;
-		access_log off;
+			access_log off;
     		log_not_found off;
     		return 404;
-	}
+		}
         location ~ \.php$ {
 		#fastcgi_split_path_info ^(/wp_hotel_booking)(/.*)$; #subdirectory
                 #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
@@ -400,14 +391,14 @@ server {
         #        expires max;
         #        log_not_found off;
         #}
-	#Start WP Super Cache
-	# Cache static files for as long as possible
+		#Start WP Super Cache
+		# Cache static files for as long as possible
     	location ~* \.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
         	expires max;
         	log_not_found off;
         	access_log off;
     	}
-	#End WP Super Cache
+		#End WP Super Cache
 }
 ```
 ### IMPROVE PHP FOR NGINX
