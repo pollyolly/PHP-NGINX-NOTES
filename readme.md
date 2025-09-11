@@ -403,13 +403,13 @@ server {
 ```
 ### IMPROVE PHP FOR NGINX
 Check number of processor for worker_processes <number of processor>
-
+```bash
 $grep processor /proc/cpuinfo | wc -l
-
+```
 Check number of allowed connections for worker_processes <connection>;
-
+```bash
 $ulimit -n
-
+```
 worker_processes x worker_connections = simultaneous client connections
 ```nginx
 # WORKERS
